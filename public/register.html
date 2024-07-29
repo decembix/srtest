@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+
+<body>
+    <h1>회원가입</h1>
+    <form id="registerForm">
+        <label for="registerUsername">아이디:</label><br>
+        <input type="text" id="registerUsername" name="username"><br><br>
+        <label for="registerPassword">비밀번호:</label><br>
+        <input type="password" id="registerPassword" name="password"><br><br>
+        <input type="submit" value="회원가입">
+    </form>
+
+    <p>이미 회원이신가요? <a href="/login">로그인</a></p>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+
+            fetch('/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.msg);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+
+</html>
