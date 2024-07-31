@@ -20,15 +20,15 @@ app.use('/posts', posts);
 app.use('/users', users);
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'main.html')); // 기본 경로를 /main으로 리디렉션
+    res.sendFile(path.join(__dirname, 'public', 'index.html')); // 기본 경로를 /main으로 리디렉션
 });
 
 app.get('/main', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'main.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/write', auth, (req, res) => {  // 인증된 사용자만 접근 가능
-    res.sendFile(path.join(__dirname, 'public', 'write.html'));
+app.get('/view', auth, (req, res) => {  // 인증된 사용자만 접근 가능
+    res.sendFile(path.join(__dirname, 'public', 'view.html'));
 });
 
 app.get('/login', (req, res) => {
