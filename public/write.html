@@ -4,61 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
-    <style>
-        .tabs {
-            display: flex;
-            cursor: pointer;
-        }
-        .tab {
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-right: 5px;
-        }
-        .tab-content {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        .error {
-            color: red;
-            display: none;
-        }
-    </style>
+    <title>글 작성</title>
 </head>
 
 <body>
-    <div class="tabs">
-        <div class="tab" onclick="showTab('write')">글 작성</div>
-        <div class="tab" onclick="showTab('view')">글 보기</div>
-    </div>
-
-    <div id="write" class="tab-content">
-        <h1>글 작성</h1>
-        <form id="postForm">
-            <label for="title">제목:</label><br>
-            <input type="text" id="title" name="title"><br><br>
-            <label for="content">내용:</label><br>
-            <textarea id="content" name="content"></textarea><br><br>
-            <input type="submit" value="작성">
-        </form>
-    </div>
-
-    <div id="view" class="tab-content">
-        <h1>글 목록</h1>
-        <input type="text" id="searchInput" placeholder="검색어 입력">
-        <button onclick="searchPosts()">검색</button>
-        <p id="error" class="error">검색어를 두 글자 이상 입력하세요.</p>
-        <div id="posts"></div>
-    </div>
+    <h1>글 작성</h1>
+    <form id="postForm">
+        <label for="title">제목:</label><br>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content"></textarea><br><br>
+        <input type="submit" value="올리기">
+        <button type="button" onclick="cancelPost()">취소</button>
+    </form>
 
     <script>
         const authToken = sessionStorage.getItem('authToken');
 
         if (!authToken) {
             alert('로그인 후 접근 가능합니다');
-            window.location.href = '/main.html';
+            window.location.href = '/login';
         }
 
         document.getElementById('postForm').addEventListener('submit', function(event) {
@@ -81,8 +46,7 @@
                     alert(data.msg);
                 } else {
                     alert('게시글이 성공적으로 작성되었습니다!');
-                    document.getElementById('title').value = '';
-                    document.getElementById('content').value = '';
+                    window.location.href = '/view.html';
                 }
             })
             .catch((error) => {
@@ -90,94 +54,11 @@
             });
         });
 
-        function showTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-
-            if (tabId === 'view') {
-                fetchPosts();
+        function cancelPost() {
+            if (confirm('글 작성을 정말 취소하시겠습니까?')) {
+                window.location.href = '/view.html';
             }
         }
-
-        function fetchPosts() {
-            fetch('/posts', {
-                headers: {
-                    'x-auth-token': authToken
-                }
-            })
-            .then(response => response.json())
-            .then(posts => {
-                displayPosts(posts);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-        function searchPosts() {
-            const query = document.getElementById('searchInput').value;
-            const errorElement = document.getElementById('error');
-            if (query.length === 0) {
-                errorElement.style.display = 'none';
-                fetchPosts();
-                return;
-            }
-            if (query.length < 2) {
-                errorElement.style.display = 'block';
-                return;
-            }
-            errorElement.style.display = 'none';
-            fetch(`/posts/search/${query}`, {
-                headers: {
-                    'x-auth-token': authToken
-                }
-            })
-            .then(response => response.json())
-            .then(posts => {
-                displayPosts(posts);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-        function displayPosts(posts) {
-            const postsDiv = document.getElementById('posts');
-            postsDiv.innerHTML = '';
-            posts.forEach(post => {
-                const postElement = document.createElement('div');
-                const postDate = new Date(post.date);
-                const formattedDate = postDate.toLocaleString();
-                postElement.innerHTML = `
-                    <h2>${post.title}</h2>
-                    <p>${post.content}</p>
-                    <p><small>작성자: ${post.author.username}, 작성일: ${formattedDate}</small></p>
-                    <button onclick="deletePost('${post._id}')">삭제</button>
-                    <hr>
-                `;
-                postsDiv.appendChild(postElement);
-            });
-        }
-
-        function deletePost(postId) {
-            fetch(`/posts/${postId}`, {
-                method: 'DELETE',
-                headers: {
-                    'x-auth-token': authToken
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                fetchPosts();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-        showTab('write');
     </script>
 </body>
 
