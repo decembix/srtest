@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 작성</title>
+</head>
+
+<body>
+    <h1>글 작성</h1>
+    <form id="postForm">
+        <label for="title">제목:</label><br>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content"></textarea><br><br>
+        <input type="submit" value="올리기">
+        <button type="button" onclick="cancelPost()">취소</button>
+    </form>
+
+    <script>
+        const authToken = sessionStorage.getItem('authToken');
+
+        if (!authToken) {
+            alert('로그인 후 접근 가능합니다');
+            window.location.href = '/login';
+        }
+
+        document.getElementById('postForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+
+            fetch('/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': authToken
+                },
+                body: JSON.stringify({ title, content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.msg) {
+                    alert(data.msg);
+                } else {
+                    alert('게시글이 성공적으로 작성되었습니다!');
+                    window.location.href = '/view.html';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+
+        function cancelPost() {
+            if (confirm('글 작성을 정말 취소하시겠습니까?')) {
+                window.location.href = '/view.html';
+            }
+        }
+    </script>
+</body>
+
+</html>
