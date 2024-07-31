@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const Post = require('../models/Post');
 
 // Create a new post
-router.post('/write', auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { title, content } = req.body;
 
     try {
@@ -21,22 +21,22 @@ router.post('/write', auth, async (req, res) => {
     }
 });
 
-// Get all posts
-router.get('/write', async (req, res) => {
-    try {
-        const posts = await Post.find().populate('author', ['username']).sort({ date: -1 });
-        res.json(posts);
-    } catch (err) {
-        res.status(500).send('Server error');
-    }
-});
+// Get posts with pagination and search
+router.get('/', auth, async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5; // 한 페이지당 보이는 게시글 수 (여기서 조정)
+    const query = req.query.query || '';
 
-// Search posts
-router.get('/search/:query', async (req, res) => {
-    const query = req.params.query;
     try {
-        const posts = await Post.find({ title: { $regex: query, $options: 'i' } }).populate('author', 'username');
-        res.json(posts);
+        const totalPosts = await Post.countDocuments({ title: { $regex: query, $options: 'i' } });
+        const totalPages = Math.ceil(totalPosts / limit);
+        const posts = await Post.find({ title: { $regex: query, $options: 'i' } })
+            .populate('author', ['username'])
+            .sort({ date: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        res.json({ posts, totalPages });
     } catch (err) {
         res.status(500).send('Server error');
     }
