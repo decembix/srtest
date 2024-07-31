@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수룡 선배</title>
+    <link rel="stylesheet" href="asset/Main.css">
+</head>
+<body>
+    <header>
+        <div id="signin">
+            <a href="login.html">회원가입/로그인</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+        </div>
+        <nav class="folder">
+            <div class="tabs">
+                <a href="templete/Sujung.html" class="tab"><div><span>수정캠퍼스</span></div></a>
+                <a href="templete/Unjung.html" class="tab"><div><span>운정캠퍼스</span></div></a>
+                <a href="templete/Bus.html" class="tab"><div><span>셔틀버스</span></div></a>
+                <a href="view.html" class="tab"><div><span>수정이 공간</span></div></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="content">
+            <div class="slider">
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+            </div>
+            <div class="introduction" onclick="toggleContent(this)">
+                <p>수룡선배란 무엇인가요?</p>
+            </div>
+            <div class="extra-content">
+                <p>수룡선배란 새내기 혹은 성신여자대학교 방문객을 위한 성신여대 기초 정보 안내 사이트로 좀 더 효율적인 학교생활을 누릴 수 있도록 도움을 제공하고자 만들어진 사이트입니다. </p>
+            </div>
+
+            <div class="introduction" onclick="toggleContent(this)">
+                <p>수룡선배 100% 활용하기!</p>
+            </div>
+            <div class="extra-content">
+                <p>수정이 공간을 활용하여 다양한 팁을 주고받자!</p>
+            </div>
+
+            <div class="introduction" onclick="toggleContent(this)">
+                <p>수룡선배 제작팀</p>
+            </div>
+            <div class="extra-content">
+                <p>컴공 전복자들(2024소프트웨어경진대회)</p>
+                <p id="stnum">20230127<br>20221898<br>20230274<br>20231151<br>20231210</p>
+            </div>
+            <script>
+                function toggleContent(element) {
+                    var content = element.nextElementSibling;
+                    if (content.style.display === "none" || content.style.display === "") {
+                        content.style.display = "block";
+                    } else {
+                        content.style.display = "none";
+                    }
+                }
+            </script>
+        </div>
+    </main>
+    <footer>
+        <p>©컴공 전복자들</p>
+    </footer>
+</body>
+</html>
