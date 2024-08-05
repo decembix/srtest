@@ -4,50 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 등록</title>
+    <title>글 작성</title>
+    <link rel="stylesheet" href="../asset/write.css">
 </head>
 
 <body>
     <h1>글 작성</h1>
-    <div class="board_write_wrap">
-        <div class="board_write">
-
-        <form id="postForm">
-            <div class="title">
-            <label for="title">제목:</label><br>
-            <input type="text" id="title" name="title" placeholder="제목 입력"><br><br>
-            </div>
-
-            <div class="cont">
-            <label for="content">내용:</label><br>
-            <textarea id="content" name="content"></textarea><br><br>
-            </div>
-
-            <div class="bt_wrap">
-            <input type="submit" value="올리기">
-            <button type="button" onclick="cancelPost()">취소</button>
-            </div>
-            
-        </form>
-
-        </div>
-    </div>
-
-
+    <form id="postForm">
+        <label for="title">제목:</label><br>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content"></textarea><br><br>
+        <input type="submit" value="작성">
+        <input type="button" value="취소" onclick="cancelPost()">
+        <p id="error-message" style="color: red; display: none;">제목과 내용을 입력해주세요.</p>
+    </form>
 
     <script>
-        const authToken = sessionStorage.getItem('authToken');
-
-        if (!authToken) {
-            alert('로그인 후 접근 가능합니다');
-            window.location.href = '/login';
-        }
-
         document.getElementById('postForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+
+            if (!title || !content) {
+                document.getElementById('error-message').style.display = 'block';
+                return;
+            }
+
+            const authToken = sessionStorage.getItem('authToken');
+            if (!authToken) {
+                alert('로그인이 필요합니다');
+                window.location.href = '/login.html';
+                return;
+            }
 
             fetch('/posts', {
                 method: 'POST',
