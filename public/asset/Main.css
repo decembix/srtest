@@ -1,0 +1,134 @@
+/*폴더 + 메모지로 꾸미는 느낌의 디자인 활용할 예정*/
+/*다른 코드 불러오기*/
+@import url(tab.css);
+@import url(signin.css);
+
+@font-face{ /* 탭 제목용 글꼴 */
+    font-family:'DNFBitBitv2';
+    font-style:normal;font-weight:400;src:url('//cdn.df.nexon.com/img/common/font/DNFBitBitv2.otf')format('opentype')}
+
+@font-face{ /* 본문 글씨용 글꼴 */
+    font-family:'bitbit';
+    src:url('//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff'),url('//cdn.df.nexon.com/img/common/font/DNFBitBit-Regular.woff2') ;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+    margin: 0;
+    font: 1.2rem "DNFBitBitv2";
+    justify-content: center;
+    width: 100%;
+    background-color:honeydew;
+}
+
+header{
+  padding: 0rem 4rem;
+}
+
+main{
+    padding: 0rem 4rem;
+}
+
+footer{
+    text-align: center;
+    font-size: 15px;
+}
+
+.logo{
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+#signin{
+  text-align: right;
+  padding: 5px 0px;
+  font: size 0.5rem;
+}
+
+/*이미지 슬라이드*/
+.content{
+  margin: 0px auto;
+  max-width: 60rem;
+  width: 100%;
+  display: block;
+  
+  padding: 1rem;
+  min-height: 15em;
+  max-height: 50em;
+
+  border: 3px solid;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.slider {
+    position: relative;
+    overflow: hidden;
+
+    text-align: center;
+    margin: 0 auto;
+    width: 500px;
+    height: 250px;
+  }
+  
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  
+    animation: slider 9s infinite linear;
+  }
+  
+  .slide:nth-child(1) {
+    background-image: url(../asset/이미지/성신여대/봄.jpg);
+    animation-delay: 0;
+  }
+  .slide:nth-child(2) {
+    background-image: url(../asset/이미지/성신여대/여름.jpg);
+    animation-delay: -3s;
+  }
+  .slide:nth-child(3) {
+    background-image: url(../asset/이미지/성신여대/가을.jpg);
+    animation-delay: -6s;
+  }
+  .slide:nth-child(4) {
+    background-image: url(../asset/이미지/성신여대/겨울.jpg);
+    animation-delay: -9s;
+  }
+  
+  @keyframes slider {
+    0% {
+      transform: translateX(0);
+    }
+  
+    26% {
+      transform: translateX(0);
+    }
+    33% {
+      transform: translateX(-100%);
+      animation-timing-function: step-end;
+    }
+    93% {
+      transform: translateX(100%);
+    }
+  
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .introduction{
+    padding: 0px 30px;
+  }

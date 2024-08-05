@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A 게시글</title>
+    <style>
+        .post-content {
+            margin: 20px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .page-item {
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="post-content">
+        <h3 id="postTitle"></h3>
+        <h1 id="postContent"></h1>
+    </div>
+    <div class="navigation">
+        <div id="prevPost">
+            <a href="#">
+                <img src="이전글없음.jpg" alt="이전글 없음" style="max-width: 100px;">
+            </a>
+        </div>
+        <div id="nextPost">
+            <a href="#">
+                <img src="다음글없음.jpg" alt="다음글 없음" style="max-width: 100px;">
+            </a>
+        </div>
+    </div>
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        fetch(`/posts/qa/${postId}`)
+            .then(response => response.json())
+            .then(post => {
+                document.getElementById('postTitle').innerText = post.title;
+                document.getElementById('postContent').innerText = post.content;
+
+                fetch(`/posts/qa/navigation/${postId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.prevPost) {
+                            document.getElementById('prevPost').innerHTML = `<a href="/qa_post.html?id=${data.prevPost._id}">${data.prevPost.title}</a>`;
+                        }
+                        if (data.nextPost) {
+                            document.getElementById('nextPost').innerHTML = `<a href="/qa_post.html?id=${data.nextPost._id}">${data.nextPost.title}</a>`;
+                        }
+                    });
+            })
+            .catch(error => console.error('Error:', error));
+
+        function setupPagination(totalPages, currentPage) {
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('span');
+                pageItem.innerHTML = i;
+                pageItem.classList.add('page-item');
+                if (i === currentPage) {
+                    pageItem.style.fontWeight = 'bold';
+                }
+                pageItem.addEventListener('click', () => window.location.href = `/view.html?page=${i}`);
+                paginationDiv.appendChild(pageItem);
+            }
+        }
+    </script>
+</body>
+</html>

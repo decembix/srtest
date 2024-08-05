@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이메일 인증</title>
+</head>
+<body>
+  <h1>이메일 인증</h1>
+  <p id="message">이메일 인증 중...</p>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    fetch(`/users/confirm_email?token=${token}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('message').innerText = data.msg;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        document.getElementById('message').innerText = '오류가 발생했습니다.';
+      });
+  </script>
+</body>
+</html>

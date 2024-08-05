@@ -1,0 +1,28 @@
+.content__inner{
+    --background: rgba(150, 155, 230, 1);
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.left{
+    width: 100%;
+    min-height: 600px;
+    background: url(../asset/이미지/수정캠퍼스.png) 0 0 no-repeat;
+    background-size: contain;
+    background-position: center center;
+}
+
+.right{
+    width: 20%;
+    height: 500px;
+    text-align: center;
+    font-size: 1.5rem;
+    overflow-y: scroll;
+}
+
+.right::-webkit-scrollbar{
+    display: none;
+}

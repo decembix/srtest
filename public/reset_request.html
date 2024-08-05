@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 재설정 요청</title>
+</head>
+<body>
+    <h1>비밀번호 재설정 요청</h1>
+    <h1>이메일 전송에 5초가량 소요됩니다. 전송 완료 글씨가 뜰 때 까지 기다려주세요!</h1>
+    <form id="resetRequestForm">
+        <label for="studentID">학번:</label><br>
+        <input type="text" id="studentID" name="studentID"><br><br>
+        <input type="submit" value="재설정 링크 요청">
+    </form>
+    <p id="message" style="color: red;"></p>
+
+    <script>
+        document.getElementById('resetRequestForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const studentID = document.getElementById('studentID').value;
+
+            fetch('/users/reset_password_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ studentID })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.msg;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('message').innerText = '오류가 발생했습니다.';
+            });
+        });
+    </script>
+</body>
+</html>

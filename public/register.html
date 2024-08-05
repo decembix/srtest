@@ -5,37 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
+    <link rel="stylesheet" href="../asset/signin.css"> <!--스타일시트 적용-->
+    <script  src="join.js"></script> <!--자바스크립트 적용-->
 </head>
 
 <body>
-    <h1>회원가입</h1>
-    <form id="registerForm">
-        <label for="registerUsername">아이디:</label><br>
-        <input type="text" id="registerUsername" name="username"><br><br>
-        <label for="registerPassword">비밀번호:</label><br>
-        <input type="password" id="registerPassword" name="password"><br><br>
-        <input type="submit" value="회원가입">
-    </form>
+    <div class="logo">
+        <a href="Main.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="350px"></a>
+    </div>
 
+  
+<form id="signup-form">
+    <table>
+    <tr>
+        <td><h2>회원가입</h2></td>
+    </tr>
+    <tr>
+        <td> <label for="userID">아이디:</label> </td>
+    </tr>
+    <tr>
+        <td> <input type="text" id="userID" name="userID" class="text"></td>
+    </tr>
+    <tr>
+        <td> <label for="password">비밀번호:</label> </td>
+    </tr>
+    <tr>
+        <td> <input type="password" id="password" name="password" class="text"> </td>
+    </tr>
+    <tr>
+        <td> <label for="confirmPassword">비밀번호 확인:</label> </td>
+    </tr>
+    <tr>
+        <td> 
+            <input type="password" id="confirmPassword" name="confirmPassword" class="text"><br>
+            <p id="password-error" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</p> 
+        </td>
+    </tr>
+    <tr>
+        <td> <label for="username">이름:</label> </td>
+    </tr>
+    <tr>
+        <td> <input type="text" id="username" name="username" class="text"> </td>
+    </tr>
+    <tr>
+        <td> <label for="studentID">학번:</label> </td>
+    </tr>
+    <tr>
+        <td> <input type="text" id="studentID" name="studentID" class="text"> </td>
+    </tr>
+
+  
+    <tr>
+        <td>
+            <input type="submit" value="가입하기" class="btn">
+            <p id="error-message" style="color: red;"></p>
+            <p>이미 회원이신가요? <a href="login">로그인</a></p>
+        </td>
+    </tr>
+    </table>
+    
+</form>
+
+
+    <p id="error-message" style="color: red;"></p>
     <p>이미 회원이신가요? <a href="/login">로그인</a></p>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
+            const userID = document.getElementById('userID').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const username = document.getElementById('username').value;
+            const studentID = document.getElementById('studentID').value;
+
+            const email = `${studentID}@sungshin.ac.kr`;
+
+            // 비밀번호 일치 여부 확인
+            if (password !== confirmPassword) {
+                document.getElementById('password-error').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('password-error').style.display = 'none';
+            }
+
+            console.log('회원가입 요청 데이터:', { userID, password, username, studentID, email }); // 디버깅용 로그
 
             fetch('/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ userID, password, username, studentID, email })
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.msg);
+                console.log('서버 응답:', data); // 디버깅용 로그
+                if (data.msg) {
+                    document.getElementById('error-message').innerText = data.msg;
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);

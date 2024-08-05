@@ -1,0 +1,3 @@
+.tab:nth-of-type(3), .content__inner{
+    --background: rgba(125, 192, 234, 1);
+}

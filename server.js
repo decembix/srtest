@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -20,7 +22,7 @@ app.use('/posts', posts);
 app.use('/users', users);
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html')); // 기본 경로를 /main으로 리디렉션
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/main', (req, res) => {
@@ -37,6 +39,10 @@ app.get('/login', (req, res) => {
 
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+app.get('/qa_post', auth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qa_post.html'));
 });
 
 app.listen(port, () => {

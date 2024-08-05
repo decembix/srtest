@@ -1,0 +1,26 @@
+.content__inner{
+    --background: rgba(104, 161, 200, 1);
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.left{
+    width: 100%;
+    background: url(../asset/이미지/운정캠퍼스.png) 0 0 no-repeat;
+    background-size: contain;
+    background-position: center center;
+}
+
+.right{
+    width: 110px;
+    text-align: center;
+    font-size: 1.5rem;
+    overflow-y: scroll;
+}
+
+.right::-webkit-scrollbar{
+    display: none;
+}

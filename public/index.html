@@ -12,7 +12,7 @@
             <a href="login.html">회원가입/로그인</a>
         </div>
         <div class="logo">
-            <a href="index.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+            <a href="index.html"><img src="asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
         </div>
         <nav class="folder">
             <div class="tabs">
@@ -61,6 +61,32 @@
                         content.style.display = "none";
                     }
                 }
+
+                // 로그인 상태 확인
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = sessionStorage.getItem('authToken');
+                    if (token) {
+                        fetch('/users/me', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(user => {
+                            if (user.username) {
+                                document.getElementById('signin').innerHTML = `
+                                    ${user.username}님, 반갑습니다! 
+                                    <button id="logoutButton">로그아웃</button>
+                                `;
+                                document.getElementById('logoutButton').addEventListener('click', () => {
+                                    sessionStorage.removeItem('authToken');
+                                    window.location.href = '/index.html';
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                });
             </script>
         </div>
     </main>

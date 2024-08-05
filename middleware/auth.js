@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const secret = 'mysecret'; // 실제로는 환경변수로 설정해야 하는데 뭔 .env어쩌고기억이안나서안건들엿음
+require('dotenv').config();
+const secret = process.env.JWT_SECRET || 'mysecret'; // 환경 변수를 사용
 
 module.exports = function (req, res, next) {
     const token = req.header('x-auth-token');
