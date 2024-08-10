@@ -1,7 +1,6 @@
 /*폴더 + 메모지로 꾸미는 느낌의 디자인 활용할 예정*/
 /*다른 코드 불러오기*/
 @import url(tab.css);
-@import url(signin.css);
 
 @font-face{ /* 탭 제목용 글꼴 */
     font-family:'DNFBitBitv2';

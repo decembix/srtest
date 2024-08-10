@@ -13,72 +13,61 @@
             justify-content: space-between;
             margin-top: 20px;
         }
-        .pagination {
-            display: flex;
-            justify-content: center;
+        .back-button {
             margin-top: 20px;
-        }
-        .page-item {
-            margin: 0 5px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="post-content">아하하 글제목ㄸㅇ
+    <div class="post-content">
         <h3 id="postTitle"></h3>
-        <h1 id="postContent"></h1>
+        <p id="postAuthor"></p>
+        <p id="postContent"></p>
+    </div>
+    <div class="back-button">
+        <button onclick="goBack()">뒤로가기</button>
     </div>
     <div class="navigation">
         <div id="prevPost">
-            <a href="#">
-                <img src="이전글없음.jpg" alt="이전글 없음" style="max-width: 100px;">
-            </a>
+            이전 글이 없습니다.
         </div>
         <div id="nextPost">
-            <a href="#">
-                <img src="다음글없음.jpg" alt="다음글 없음" style="max-width: 100px;">
-            </a>
+            다음 글이 없습니다.
         </div>
     </div>
-    <div class="pagination" id="pagination"></div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
+        const prevPage = urlParams.get('page');
 
         fetch(`/posts/qa/${postId}`)
             .then(response => response.json())
             .then(post => {
                 document.getElementById('postTitle').innerText = post.title;
+                document.getElementById('postAuthor').innerText = `작성자: ${post.author.username}`;
                 document.getElementById('postContent').innerText = post.content;
 
                 fetch(`/posts/qa/navigation/${postId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.prevPost) {
-                            document.getElementById('prevPost').innerHTML = `<a href="/qa_post.html?id=${data.prevPost._id}">${data.prevPost.title}</a>`;
+                            document.getElementById('prevPost').innerHTML = `<a href="/qa_post.html?id=${data.prevPost._id}&page=${prevPage}">${data.prevPost.title}</a>`;
+                        } else {
+                            document.getElementById('prevPost').innerText = '이전 글이 없습니다.';
                         }
+
                         if (data.nextPost) {
-                            document.getElementById('nextPost').innerHTML = `<a href="/qa_post.html?id=${data.nextPost._id}">${data.nextPost.title}</a>`;
+                            document.getElementById('nextPost').innerHTML = `<a href="/qa_post.html?id=${data.nextPost._id}&page=${prevPage}">${data.nextPost.title}</a>`;
+                        } else {
+                            document.getElementById('nextPost').innerText = '다음 글이 없습니다.';
                         }
                     });
             })
             .catch(error => console.error('Error:', error));
 
-        function setupPagination(totalPages, currentPage) {
-            const paginationDiv = document.getElementById('pagination');
-            paginationDiv.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement('span');
-                pageItem.innerHTML = i;
-                pageItem.classList.add('page-item');
-                if (i === currentPage) {
-                    pageItem.style.fontWeight = 'bold';
-                }
-                pageItem.addEventListener('click', () => window.location.href = `/view.html?page=${i}`);
-                paginationDiv.appendChild(pageItem);
-            }
+        function goBack() {
+            window.location.href = `/view.html?tab=qa&page=${prevPage}`;
         }
     </script>
 </body>

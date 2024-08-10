@@ -4,37 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
-    <link rel="stylesheet" href="../asset/view.css">
+    <title>수정이 공간</title>
+    <link rel="stylesheet" href="../asset/Main.css">
+    <link rel="stylesheet" href="../asset/Communication.css">
     <style>
-        .tabs {
-            display: flex;
+        .communication-tab {
+            display: inline-block;
+            margin: 10px 0px;
+            padding: 0px 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            color: #999;
+            font-size: 14px;
             cursor: pointer;
         }
-        .tab {
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-right: 5px;
-        }
+
         .tab-content {
             display: none;
         }
-        .active {
+
+        .tab-content.active {
             display: block;
         }
+
+        .tabs .tab {
+            cursor: pointer;
+        }
+
         .error {
             color: red;
             display: none;
         }
+
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
+
         .page-item {
             margin: 0 5px;
             cursor: pointer;
         }
+
         .write-button {
             display: flex;
             justify-content: center;
@@ -44,39 +56,69 @@
 </head>
 
 <body>
-    <div class="tabs">
-        <div class="tab" onclick="showTab('faq')">FAQ</div>
-        <div class="tab" onclick="showTab('qa')">Q&A</div>
-    </div>
-
-    <div id="faq" class="tab-content">
-        <h1>FAQ</h1>
-        <div id="faqPosts"></div>
-    </div>
-
-    <div id="qa" class="tab-content">
-        <h1>Q&A 게시판</h1>
-        <p>학교 생활하면서 궁금한 사항들을 묻고 답하는 게시판입니다.</p>
-        <input type="text" id="searchInput" placeholder="검색어 입력">
-        <button onclick="searchPosts(1)">검색</button>
-        <p id="error" class="error">검색어를 두 글자 이상 입력하세요.</p>
-        <div id="qaPosts"></div>
-        <div class="pagination" id="qaPagination"></div>
-        <div class="write-button">
-            <button onclick="location.href='/write.html'">등록</button>
+    <header>
+        <div id="signin">
+            <a href="login.html">회원가입/로그인</a>
         </div>
-    </div>
+        <div class="logo">
+            <a href="index.html"><img src="asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+        </div>
+        <nav class="folder">
+            <div class="tabs">
+                <a href="Sujung.html" class="tab">
+                    <div><span>수정캠퍼스</span></div>
+                </a>
+                <a href="Unjung.html" class="tab">
+                    <div><span>운정캠퍼스</span></div>
+                </a>
+                <a href="Bus.html" class="tab">
+                    <div><span>셔틀버스</span></div>
+                </a>
+                <a href="view.html" class="tab">
+                    <div><span>수정이 공간</span></div>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <div class="content__inner"> <!--수정이 공간-->
+        <div class="page">
+            <div class="tabs">
+                <div class="communication-tab" onclick="showTab('faq')">FAQ</div>
+                <div class="communication-tab" onclick="showTab('qa')">Q&A</div>
+            </div>
 
-    <div id="deleteModal" style="display: none;">
-        <h2>글 삭제</h2>
-        <label for="deletePassword">비밀번호:</label>
-        <input type="password" id="deletePassword">
-        <button onclick="confirmDelete()">확인</button>
-        <button onclick="closeDeleteModal()">취소</button>
+            <div id="faq" class="tab-content">
+                <h1>FAQ</h1>
+                <div id="faqPosts"></div>
+                <div class="write-button" id="faqWriteButton" style="display: none;">
+                    <button onclick="location.href='/faq_write.html'">등록</button>
+                </div>
+                <div class="pagination" id="faqPagination"></div>
+            </div>
+
+            <div id="qa" class="tab-content">
+                <h1>Q&A 게시판</h1>
+                <p>학교 생활하면서 궁금한 사항들을 묻고 답하는 게시판입니다.</p>
+
+                <div class="search-box">
+                    <input class="search-txt" type="text" id="searchInput" placeholder="검색어 입력">
+                    <button class="search-btn" onclick="searchPosts(1)"><img src="../asset/이미지/검색.png" alt="검색 버튼" width="30px"></button>
+                    <p id="error" class="error">검색어를 두 글자 이상 입력하세요.</p>
+                </div>
+
+                <div id="qaPosts"></div>
+                <div class="pagination" id="qaPagination"></div>
+                <div class="write-button">
+                    <button onclick="location.href='/write.html'">등록</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         let deletePostId = null;
+        let currentUser = null;
+        const authToken = sessionStorage.getItem('authToken');
 
         function showTab(tabId) {
             const contents = document.querySelectorAll('.tab-content');
@@ -86,55 +128,53 @@
             if (tabId === 'faq') {
                 fetchFaqPosts();
             } else if (tabId === 'qa') {
-                const token = sessionStorage.getItem('authToken');
-                if (token) {
-                    fetch('/users/me', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(user => {
-                        if (user.username) {
-                            fetchQaPosts(1);
-                        } else {
-                            alert('로그인이 필요합니다.');
-                            showTab('faq');
-                        }
-                    })
-                    .catch(error => {
-                        alert('로그인이 필요합니다.');
-                        showTab('faq');
-                    });
+                if (!authToken) {
+                    alert('로그인 후 접근 가능합니다');
+                    window.location.href = '/login';
                 } else {
-                    alert('로그인이 필요합니다.');
-                    showTab('faq');
+                    fetchQaPosts();
                 }
             }
         }
 
-        function fetchFaqPosts() {
-            fetch('/posts/faq')
+        function fetchFaqPosts(page = 1) {
+            fetch(`/faq_posts?page=${page}`)
                 .then(response => response.json())
-                .then(posts => {
+                .then(data => {
+                    const { posts, totalPages } = data;
                     const faqPostsDiv = document.getElementById('faqPosts');
-                    faqPostsDiv.innerHTML = '';
-                    posts.forEach(post => {
-                        const postElement = document.createElement('div');
-                        postElement.innerHTML = `
-                            <h2>${post.title} <img src="plus-icon.png" onclick="toggleFaqPost('${post._id}')"></h2>
-                            <div id="faqContent-${post._id}" style="display: none;">
+                    faqPostsDiv.innerHTML = posts.map(post => `
+                        <div>
+                            <label for="${post._id}" class="FAQ_title" onclick="toggleContent(this)">${post.title}<em></em></label>
+                            <div id="faqContent-${post._id}" style="display:none;">
+                                <p class="subhead">${post.subhead}</p>
                                 <p>${post.content}</p>
                             </div>
-                        `;
-                        faqPostsDiv.appendChild(postElement);
-                    });
-                });
-        }
+                        </div>
+                    `).join('');
+                    setupFaqPagination(totalPages, page);
 
-        function toggleFaqPost(postId) {
-            const contentDiv = document.getElementById(`faqContent-${postId}`);
-            contentDiv.style.display = contentDiv.style.display === 'none' ? 'block' : 'none';
+                    // Check if user is JBJD
+                    const token = sessionStorage.getItem('authToken');
+                    if (token) {
+                        fetch('/users/me', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(user => {
+                            currentUser = user;
+                            if (user.userID === 'JBJD') {
+                                document.getElementById('faqWriteButton').style.display = 'flex';
+                            } else {
+                                document.getElementById('faqWriteButton').style.display = 'none';
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         function fetchQaPosts(page = 1) {
@@ -150,68 +190,70 @@
                     const { posts, totalPages } = data;
                     const qaPostsDiv = document.getElementById('qaPosts');
                     qaPostsDiv.innerHTML = `
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>글쓴이</th>
-                                    <th>작성일</th>
-                                    <th>삭제</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="list">
+                            <div class="top">
+                                <div class="num">번호</div>
+                                <div class="title">제목</div>
+                                <div class="writer">글쓴이</div>
+                                <div class="date">작성일</div>
+                                <div class="delete">삭제</div>
+                            </div>
+                            <div>
                                 ${posts.map((post, index) => `
-                                    <tr>
-                                        <td>${(page - 1) * 5 + index + 1}</td>
-                                        <td><a href="/qa_post.html?id=${post._id}">${post.title}</a></td>
-                                        <td>${post.author.username}</td>
-                                        <td>${new Date(post.date).toLocaleString()}</td>
-                                        <td><button onclick="showDeleteModal('${post._id}')">삭제</button></td>
-                                    </tr>
+                                    <div class="num">${(page - 1) * 5 + index + 1}</div>
+                                    <div class="title"><a href="/qa_post.html?id=${post._id}&page=${page}">${post.title}</a></div>
+                                    <div class="writer">${post.author.username}</div>
+                                    <div class="date">${new Date(post.date).toLocaleString()}</div>
+                                    <div class="delete">${post.author._id === currentUser._id ? `<button onclick="confirmDelete('${post._id}')">삭제</button>` : ''}</div>
                                 `).join('')}
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
                     `;
-                    setupPagination(totalPages, page);
+                    setupQaPagination(totalPages, page);
                 });
         }
 
-        function showDeleteModal(postId) {
-            deletePostId = postId;
-            document.getElementById('deleteModal').style.display = 'block';
-        }
-
-        function closeDeleteModal() {
-            deletePostId = null;
-            document.getElementById('deleteModal').style.display = 'none';
-        }
-
-        function confirmDelete() {
-            const password = document.getElementById('deletePassword').value;
-            const token = sessionStorage.getItem('authToken');
-            fetch(`/posts/${deletePostId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': token
-                },
-                body: JSON.stringify({ password })
-            })
+        function confirmDelete(postId) {
+            if (confirm('정말 이 글을 삭제하시겠습니까?')) {
+                const token = sessionStorage.getItem('authToken');
+                fetch(`/posts/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.msg);
-                    if (data.success) {
+                    if (data.msg === 'Post removed') {
+                        alert('게시글이 삭제되었습니다');
                         fetchQaPosts();
+                    } else {
+                        alert(data.msg);
                     }
-                    closeDeleteModal();
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            }
         }
 
-        function setupPagination(totalPages, currentPage) {
+        function setupFaqPagination(totalPages, currentPage) {
+            const paginationDiv = document.getElementById('faqPagination');
+            paginationDiv.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('span');
+                pageItem.innerHTML = i;
+                pageItem.classList.add('page-item');
+                if (i === currentPage) {
+                    pageItem.style.fontWeight = 'bold';
+                }
+                pageItem.addEventListener('click', () => fetchFaqPosts(i));
+                paginationDiv.appendChild(pageItem);
+            }
+        }
+
+        function setupQaPagination(totalPages, currentPage) {
             const paginationDiv = document.getElementById('qaPagination');
             paginationDiv.innerHTML = '';
             for (let i = 1; i <= totalPages; i++) {
@@ -230,7 +272,49 @@
             fetchQaPosts(page);
         }
 
-        showTab('faq');
+        function toggleContent(element) {
+            var content = element.nextElementSibling;
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+
+        // 로그인 상태 확인
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = sessionStorage.getItem('authToken');
+            if (token) {
+                fetch('/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(user => {
+                    currentUser = user;
+                    if (user.username) {
+                        document.getElementById('signin').innerHTML = `
+                            ${user.username}님, 반갑습니다! 
+                            <button id="logoutButton">로그아웃</button>
+                        `;
+                        document.getElementById('logoutButton').addEventListener('click', () => {
+                            sessionStorage.removeItem('authToken');
+                            window.location.href = '/index.html';
+                        });
+                    }
+                    const tab = new URLSearchParams(window.location.search).get('tab');
+                    if (tab === 'qa') {
+                        showTab('qa');
+                    } else {
+                        showTab('faq');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                showTab('faq'); // 로그인되지 않은 경우에도 FAQ 탭을 기본으로 보여줍니다.
+            }
+        });
     </script>
 </body>
 

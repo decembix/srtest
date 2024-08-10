@@ -1,10 +1,19 @@
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+.logo{
+    text-align: center;
+}
 table {
     width: 280px;
     height: 250px;
     margin: auto;
     font-size: 15px;
 }
-table>input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"] {
     width: 250px;
     height: 32px;
     font-size: 15px;
@@ -34,6 +43,3 @@ table>input[type="text"], input[type="password"] {
     padding-left: 10px;
     background-color: rgb(61, 135, 255);
 }
-
-#signin:hover {color:rgb(58, 27, 104);}
-#signin:link {color:rgb(75, 73, 83);}

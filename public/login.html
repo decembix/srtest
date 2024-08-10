@@ -4,26 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title>수룡 선배</title>
     <link rel="stylesheet" href="../asset/signin.css"> <!--스타일시트 적용-->
+    <script  src="join.js"></script> <!--자바스크립트 적용-->
 </head>
 
 <body>
     <div class="logo">
-        <a href="Main.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="350px"></a>
+        <a href="/index"><img src="../asset/이미지/수룡선배 아이콘2.png" width="350px"></a>
     </div>
-    <h1>로그인</h1>
     <form id="loginForm">
-        <label for="loginUsername">아이디:</label><br>
-        <input type="text" id="loginUsername" name="userID"><br><br>
-        <label for="loginPassword">비밀번호:</label><br>
-        <input type="password" id="loginPassword" name="password"><br><br>
-        <input type="submit" value="로그인">
+        <table>
+            <tr>
+                <td><h2>log in</h2></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="loginUsername" name="userID" placeholder=ID></td>
+            </tr>
+            <tr>
+                <td><input type="password" id="loginPassword" name="password" placeholder=Password></td>
+            </tr>
+           <tr>
+                <td><input type="submit" value="Sign in" class="btn" id="btn"></td>
+            </tr>
+            <tr>
+                <td class="join"><a href="/register">회원가입</a></td>
+                <p id="error-message" style="color: red;"></p>
+                </tr>
+            <tr> <td><a href="reset_request.html">비밀번호 변경</a></td></tr>
+    </table>
     </form>
 
-    <p>회원이 아니신가요? <a href="/register">회원가입</a></p>
-    <p id="error-message" style="color: red;"></p>
-    <a href="reset_request.html">비밀번호 찾기</a>
+
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {

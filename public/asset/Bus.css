@@ -1,3 +1,29 @@
-.tab:nth-of-type(3), .content__inner{
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.content__inner{
     --background: rgba(125, 192, 234, 1);
+    text-align: center;
+}
+
+table{
+    width: 100%;
+}
+
+th{
+    font-size: 30px;
+    font-weight: lighter;
+    width: 50%;    
+}
+
+td{
+    font-family: 'DungGeunMo';
+}
+
+.title{
+    font-weight: bold;
 }

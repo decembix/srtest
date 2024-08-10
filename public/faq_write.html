@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글 작성</title>
+    <title>FAQ 작성</title>
     <link rel="stylesheet" href="../asset/write.css">
 </head>
 <body>
-    <h1>글 작성</h1>
-    <form id="postForm">
+    <h1>FAQ 작성</h1>
+    <form id="faqPostForm">
         <label for="title">제목:</label><br>
-        <input type="text" id="title" name="title" maxlength="30" oninput="checkTitleLength()"><br>
-        <span id="titleLength">0/30</span><br><br>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="subhead">소제목:</label><br>
+        <input type="text" id="subhead" name="subhead"><br><br>
         <label for="content">내용:</label><br>
         <textarea id="content" name="content"></textarea><br><br>
         <input type="submit" value="작성">
@@ -20,16 +21,11 @@
     </form>
 
     <script>
-        function checkTitleLength() {
-            const title = document.getElementById('title');
-            const titleLength = document.getElementById('titleLength');
-            titleLength.textContent = `${title.value.length}/30`;
-        }
-
-        document.getElementById('postForm').addEventListener('submit', function(event) {
+        document.getElementById('faqPostForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const title = document.getElementById('title').value.trim();
+            const subhead = document.getElementById('subhead').value.trim();
             const content = document.getElementById('content').value.trim();
 
             if (!title || !content) {
@@ -37,33 +33,28 @@
                 return;
             }
 
-            if (title.length > 30) {
-                alert('제목은 최대 30글자까지 입력할 수 있습니다.');
-                return;
-            }
-
             const authToken = sessionStorage.getItem('authToken');
             if (!authToken) {
                 alert('로그인이 필요합니다');
-                window.location.href = '/login';
+                window.location.href = '/login.html';
                 return;
             }
 
-            fetch('/posts', {
+            fetch('/faq_posts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'x-auth-token': authToken
                 },
-                body: JSON.stringify({ title, content })
+                body: JSON.stringify({ title, subhead, content })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.msg) {
                     alert(data.msg);
                 } else {
-                    alert('게시글이 성공적으로 작성되었습니다!');
-                    window.location.href = '/view.html?tab=qa'; // Q&A 탭을 활성화하며 view.html로 이동
+                    alert('FAQ가 성공적으로 작성되었습니다!');
+                    window.location.href = '/view.html';
                 }
             })
             .catch((error) => {
@@ -72,14 +63,10 @@
         });
 
         function cancelPost() {
-            if (confirm('글 작성을 정말 취소하시겠습니까?')) {
+            if (confirm('FAQ 작성을 정말 취소하시겠습니까?')) {
                 window.location.href = '/view.html';
             }
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            checkTitleLength();
-        });
     </script>
 </body>
 </html>

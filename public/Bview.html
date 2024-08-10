@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수정이 공간</title>
+    <link rel="stylesheet" href="../asset/Main.css">
+    <link rel="stylesheet" href="../asset/Communication.css">
+    <style>
+        .tab-content {
+            border-radius: 10px;
+            position: relative;
+            width: 100%;
+            top: -2px;
+            left: -2px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab.active span {
+            background: white;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            border: 2px solid;
+            border-radius: 5px;
+            color: black;
+        }
+
+        .tab.active:focus span {
+            outline: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .error {
+            color: red;
+            display: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-item {
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .write-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수정이 공간</title>
+    <link rel="stylesheet" href="../asset/main.css">
+    <link rel="stylesheet" href="../asset/Communication.css">
+    <link rel="stylesheet" href="../asset/list.css">
+    <script  src="../asset/tab.js"></script> <!--자바스크립트 적용-->
+</head>
+<body>
+    <header>
+        <div id="signin">
+            <a href="signin.html">회원가입/로그인</a>
+        </div>
+        <div class="logo">
+            <a href="Main.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+        </div>
+        <nav class="folder">
+            <div class="tabs">
+                <a href="Sujung.html" class="tab"><div><span>수정캠퍼스</span></div></a>
+                <a href="Unjung.html" class="tab"><div><span>운정캠퍼스</span></div></a>
+                <a href="Bus.html" class="tab"><div><span>셔틀버스</span></div></a>
+                <a href="Communication.html" class="tab"><div><span>수정이 공간</span></div></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content__inner"> <!--수정이 공간-->
+            <div class="page">
+
+                <div class="top"> <!--검색창-->
+                    <form class="search-box" method="get">
+                        <input class="search-txt" type="text" placeholder="검색어를 입력하세요.">
+                        <button class="search-btn" type="submit">
+                            <img src="../asset/이미지/검색.png" alt="검색 버튼" width="30px">
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="tab_content"> <!--수정이 공간 tab-->
+                    <input type="radio" name="tabmenu" id="FAQ" checked>
+                    <label for="FAQ">FAQ</label>
+                    <input type="radio" name="tabmenu" id="Q&A">
+                    <label for="Q&A">Q&A</label>
+                        
+                    <div class="conbox con1"> <!--FAQ 게시판-->
+                        <div class="accordion">
+                            <input type="radio" name="accordion" id="answer01">
+                            <label for="answer01" class="FAQ_title">성적장학금 vs 성신장학금<em></em></label>
+                            <div class="answer01">
+                                <p class="subhead">성적우수장학금 (등록금 N% 지급)</p>
+                                <p>- 직전학기 성적: 각 학과(부), 학년별 1~3등 이내<br>
+                                &nbsp; * 대형과(80명 이상): 1~6등까지 확대 지급 가능<br>
+                                - 공인 인증영어성적 보유자: 점수 조건 O <br> 
+                                &nbsp; * 계열과 학년별로 점수차 O <br>
+                                </p>
+                                <p class="subhead">성신장학금 (170만 원 지급)</p>
+                                <p>- 직전학기 성적: 2.5 이상인 자<br>
+                                - 공인 인증영어성적 보유자: 점수 조건 X</p></div>
+                            <input type="radio" name="accordion" id="answer02">
+                            <label for="answer02" class="FAQ_title">삼단 언덕 피해가기?<em></em></label>
+                            <div class="answer02">
+                                <p>
+                                    1. 학생회관 1층에서 엘리베이터 이용(4층) <br>
+                                    2. 셀프 카페테리아를 지나 난향관 이동 <br>
+                                    3. 난향관 1층에서 엘리베이터 이용(4층)
+                                </p>
+                                <p class="subhead"> - 3단 언덕 피해가기 성공! - </p>
+                               
+                            </div>
+                            <input type="radio" name="accordion" id="answer03">
+                            <label for="answer03" class="FAQ_title"> 학교 속 숨겨진 구름다리?<em></em></label>
+                            <div>
+                                <p>
+                                    - 학생회관(4층) ~ 난향관(1층) <br>
+                                    - 난향관(7층) ~ 조형2관, 음악관, 성신관(3층) <br>
+                                    - 성신관(4층) ~ 수정관(4층) <br>
+                                    - 성신관(5층) ~ 음악관(1층), 조형2관(3층) <br>
+                                </p>
+                            </div>
+                            <input type="radio" name="accordion" id="answer04">
+                            <label for="answer04" class="FAQ_title">운캠 관련된 거 있으면 좋겠..<em></em></label>
+                            <div><p>여기에 추가되는 부분이 자주묻는 질문의 답변, 내용 추천 받아요*^^*</p></div>
+                        </div>
+                    </div>
+
+                    <div class="conbox con2"> <!--Q&A 게시판-->
+                            <div class="idx_board">
+                                <div class="title">
+                                        <h2 class="name">Q&A 게시판</h2>
+                                        <p>학교 생활하면서 궁금한 사항들을 묻고 답하는 게시판입니다.</p>
+                                    </div>
+                                    <div class="list">
+                                        <div class="top">
+                                            <div class="num">번호</div>
+                                            <div class="title">제목</div>
+                                            <div class="writer">글쓴이</div>
+                                            <div class="date">작성일</div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="board_page">
+                                        <a href="#" class="bt first"><<</a>
+                                        <a href="#" class="bt prev"><</a>
+                                        <a href="#" class="num on">1</a>
+                                        <a href="#" class="num">2</a>
+                                        <a href="#" class="num">3</a>
+                                        <a href="#" class="num">4</a>
+                                        <a href="#" class="num">5</a>
+                                        <a href="#" class="bt next">></a>
+                                        <a href="#" class="bt last">>></a>
+                                    </div>
+                                    <div class="bt_wrap">
+                                        <a href="write.html" class="on">등록</a>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>©컴공 전복자들</p>
+    </footer>
+</body>
+</html>
+<body>
+    <header>
+        <div id="signin">
+            <a href="login.html">회원가입/로그인</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+        </div>
+        <nav class="folder">
+            <div class="tabs">
+                <a href="Sujung.html" class="tab"><div><span>수정캠퍼스</span></div></a>
+                <a href="Unjung.html" class="tab"><div><span>운정캠퍼스</span></div></a>
+                <a href="Bus.html" class="tab"><div><span>셔틀버스</span></div></a>
+                <a href="view.html" class="tab"><div><span>수정이 공간</span></div></a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content__inner"> <!--수정이 공간-->
+        <div class="page">
+
+        </div>
+    </div>
+
+
+    <div class="tabs">
+        <div class="tab" data-tab="faq">FAQ</div>
+        <div class="tab" data-tab="qa">Q&A</div>
+    </div>
+
+    <div id="faq" class="tab-content active">
+        <h1>FAQ</h1>
+        <div class="conbox con1">
+            <div class="accordion">
+                <input type="checkbox" name="accordion" id="answer01">
+                <label for="answer01" class="FAQ_title">성적장학금 vs 성신장학금<em></em></label>
+                <div class="answer01">
+                    <p class="subhead">성적우수장학금 (등록금 N% 지급)</p>
+                    <p>- 직전학기 성적: 각 학과(부), 학년별 1~3등 이내<br>
+                    &nbsp; * 대형과(80명 이상): 1~6등까지 확대 지급 가능<br>
+                    - 공인 인증영어성적 보유자: 점수 조건 O <br> 
+                    &nbsp; * 계열과 학년별로 점수차 O <br>
+                    </p>
+                    <p class="subhead">성신장학금 (170만 원 지급)</p>
+                    <p>- 직전학기 성적: 2.5 이상인 자<br>
+                    - 공인 인증영어성적 보유자: 점수 조건 X</p>
+                </div>
+                <input type="checkbox" name="accordion" id="answer02">
+                <label for="answer02" class="FAQ_title">삼단 언덕 피해가기?<em></em></label>
+                <div class="answer02">
+                    <p>
+                        1. 학생회관 1층에서 엘리베이터 이용(4층) <br>
+                        2. 셀프 카페테리아를 지나 난향관 이동 <br>
+                        3. 난향관 1층에서 엘리베이터 이용(4층)
+                    </p>
+                    <p class="subhead"> - 3단 언덕 피해가기 성공! - </p>
+                </div>
+                <input type="checkbox" name="accordion" id="answer03">
+                <label for="answer03" class="FAQ_title"> 학교 속 숨겨진 구름다리?<em></em></label>
+                <div>
+                    <p>
+                        - 학생회관(4층) ~ 난향관(1층) <br>
+                        - 난향관(7층) ~ 조형2관, 음악관, 성신관(3층) <br>
+                        - 성신관(4층) ~ 수정관(4층) <br>
+                        - 성신관(5층) ~ 음악관(1층), 조형2관(3층) <br>
+                    </p>
+                </div>
+                <input type="checkbox" name="accordion" id="answer04">
+                <label for="answer04" class="FAQ_title">운캠 관련된 거 있으면 좋겠..<em></em></label>
+                <div><p>여기에 추가되는 부분이 자주묻는 질문의 답변, 내용 추천 받아요*^^*</p></div>
+            </div>
+        </div>
+        <div id="faqPosts"></div>
+    </div>
+
+    <div id="qa" class="tab-content">
+        <h1>Q&A 게시판</h1>
+        <p>학교 생활하면서 궁금한 사항들을 묻고 답하는 게시판입니다.</p>
+        <input type="text" id="searchInput" placeholder="검색어 입력">
+        <button onclick="searchPosts(1)">검색</button>
+        <p id="error" class="error">검색어를 두 글자 이상 입력하세요.</p>
+        <div id="qaPosts"></div>
+        <div class="pagination" id="qaPagination"></div>
+        <div class="write-button">
+            <button onclick="location.href='/write.html'">등록</button>
+        </div>
+    </div>
+
+    <div id="deleteModal" style="display: none;">
+        <h2>글 삭제</h2>
+        <label for="deletePassword">비밀번호:</label>
+        <input type="password" id="deletePassword">
+        <button onclick="confirmDelete()">확인</button>
+        <button onclick="closeDeleteModal()">취소</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-tab');
+
+                    if (targetId === 'qa' && !isLoggedIn()) {
+                        alert('로그인이 필요합니다.');
+                        return;
+                    }
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(content => content.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+
+                    if (targetId === 'faq') {
+                        fetchFaqPosts();
+                    } else if (targetId === 'qa') {
+                        fetchQaPosts(1);
+                    }
+                });
+            });
+
+            document.querySelector('.tab[data-tab="faq"]').click();
+        });
+
+        function isLoggedIn() {
+            const token = sessionStorage.getItem('authToken');
+            return token !== null;
+        }
+
+        function fetchFaqPosts() {
+            fetch('/posts/faq')
+                .then(response => response.json())
+                .then(posts => {
+                    const faqPostsDiv = document.getElementById('faqPosts');
+                    faqPostsDiv.innerHTML = '';
+                    posts.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.innerHTML = `
+                            <h2>${post.title} <img src="plus-icon.png" onclick="toggleFaqPost('${post._id}')"></h2>
+                            <div id="faqContent-${post._id}" style="display: none;">
+                                <p>${post.content}</p>
+                            </div>
+                        `;
+                        faqPostsDiv.appendChild(postElement);
+                    });
+                });
+        }
+
+        function toggleFaqPost(postId) {
+            const contentDiv = document.getElementById(`faqContent-${postId}`);
+            contentDiv.style.display = contentDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function fetchQaPosts(page = 1) {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query.length > 0 && query.length < 2) {
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+            document.getElementById('error').style.display = 'none';
+            fetch(`/posts/qa?page=${page}&query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const { posts, totalPages } = data;
+                    const qaPostsDiv = document.getElementById('qaPosts');
+                    qaPostsDiv.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>글쓴이</th>
+                                    <th>작성일</th>
+                                    <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${posts.map((post, index) => `
+                                    <tr>
+                                        <td>${(page - 1) * 5 + index + 1}</td>
+                                        <td><a href="/qa_post.html?id=${post._id}">${post.title}</a></td>
+                                        <td>${post.author.username}</td>
+                                        <td>${new Date(post.date).toLocaleString()}</td>
+                                        <td><button onclick="showDeleteModal('${post._id}')">삭제</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                    setupPagination(totalPages, page);
+                });
+        }
+
+        function showDeleteModal(postId) {
+            deletePostId = postId;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeDeleteModal() {
+            deletePostId = null;
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            const password = document.getElementById('deletePassword').value;
+            const token = sessionStorage.getItem('authToken');
+            fetch(`/posts/${deletePostId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token
+                },
+                body: JSON.stringify({ password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.msg);
+                    if (data.success) {
+                        fetchQaPosts();
+                    }
+                    closeDeleteModal();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function setupPagination(totalPages, currentPage) {
+            const paginationDiv = document.getElementById('qaPagination');
+            paginationDiv.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('span');
+                pageItem.innerHTML = i;
+                pageItem.classList.add('page-item');
+                if (i === currentPage) {
+                    pageItem.style.fontWeight = 'bold';
+                }
+                pageItem.addEventListener('click', () => fetchQaPosts(i));
+                paginationDiv.appendChild(pageItem);
+            }
+        }
+
+        function searchPosts(page = 1) {
+            fetchQaPosts(page);
+        }
+    </script>
+</body>
+
+</html>

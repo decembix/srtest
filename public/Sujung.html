@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수정캠퍼스</title>
+    <link rel="stylesheet" href="../asset/main.css">
+    <link rel="stylesheet" href="../asset/Sujung.css">
+    <script  src="../asset/tab.js"></script> <!--자바스크립트 적용-->
+</head>
+<body>
+    <header>
+        <div id="signin">
+            <a href="login.html">회원가입/로그인</a>
+        </div>
+        <div class="logo">
+            <a href="index.html"><img src="../asset/이미지/수룡선배 아이콘2.png" width="400px" alt="Logo"></a>
+        </div>
+        <nav class="folder">
+            <div class="tabs">
+                <a href="/Sujung" class="tab"><div><span>수정캠퍼스</span></div></a>
+                <a href="/Unjung" class="tab"><div><span>운정캠퍼스</span></div></a>
+                <a href="/Bus" class="tab"><div><span>셔틀버스</span></div></a>
+                <a href="/view" class="tab"><div><span>수정이 공간</span></div></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="content__inner"> <!--수캠 지도-->
+            <div class="page">
+                <div class="left">
+                    
+                </div>
+                <div class="right">
+                    <p> 수정관 </p>
+                    <p> 성신관 </p>
+                    <p> 난향관 </p>
+                    <p> 조형 1관 </p>
+                    <p> 조형 2관 </p> 
+                    <p> 음악관 </p>
+                    <p> 학생회관 </p>
+                </div>
+            </div>
+            <script>
+                function toggleContent(element) {
+                    var content = element.nextElementSibling;
+                    if (content.style.display === "none" || content.style.display === "") {
+                        content.style.display = "block";
+                    } else {
+                        content.style.display = "none";
+                    }
+                }
+
+                // 로그인 상태 확인
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = sessionStorage.getItem('authToken');
+                    if (token) {
+                        fetch('/users/me', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(user => {
+                            if (user.username) {
+                                document.getElementById('signin').innerHTML = `
+                                    ${user.username}님, 반갑습니다! 
+                                    <button id="logoutButton">로그아웃</button>
+                                `;
+                                document.getElementById('logoutButton').addEventListener('click', () => {
+                                    sessionStorage.removeItem('authToken');
+                                    window.location.href = '/index.html';
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                });
+            </script>
+        </div>
+    </main>
+    <footer>
+        <p>©컴공 전복자들</p>
+    </footer>
+</body>
+</html>
